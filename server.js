@@ -8,12 +8,22 @@ dotenv.config({verbose:true})
 
 const app = express()
 
-app.get('/', function (req, res) {
-  res.send('Hello World!')
-})
+// app.get('/', function (req, res) {
+//   res.send('Hello World!')
+// })
 
 app.listen(8080, function () {
   console.log(' listening on port 8080...')
+})
+
+//middleware
+app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static(__dirname+'/public'))
+
+app.get('*',function(req,res){
+  res.sendFile(__dirname+'/public/index.html')  
 })
 
 mongoose.connect(db,function(err){
